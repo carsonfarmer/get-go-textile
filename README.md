@@ -24,6 +24,8 @@ Can be specified in `package.json` with a field `go-textile.version`, eg:
 },
 ```
 
+If left blank, it will default to the latest `go-textile` release.
+
 ### Arguments
 
 When used via `node src/bin.js`, you can specify the target platform, version and architecture via environment variables: `TARGET_OS`, `TARGET_VERSION` and `TARGET_ARCH`.
