@@ -10,8 +10,6 @@ Install a Textile daemon as a dependency of your project
 yarn add go-textile
 ```
 
-See [IPFS getting-started](http://ipfs.io/docs/getting-started). If anything goes wrong, try using: [http://ipfs.io/docs/install](http://ipfs.io/docs/install).
-
 ## Development
 
 **Warning**: The binary gets put in the `go-textile` folder inside the module folder.
@@ -39,3 +37,7 @@ node src/bin.js <version> <platform> <architecture> <install directory>
 ```
 node src/bin.js v0.2.1 linux amd64 ./go-textile
 ```
+
+## About
+
+This is a direct fork of the [`npm-go-ipfs-dep`](https://github.com/ipfs/npm-go-ipfs-dep) library. Big thanks to all the contributors to that original package! See `package.json`, `LICENSE`, and `CHANGELOG.md` for details and contributions.

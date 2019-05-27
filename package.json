@@ -1,7 +1,7 @@
 {
-  "name": "go-ipfs-dep",
-  "version": "0.4.20",
-  "description": "Install the latest go-ipfs binary",
+  "name": "get-go-textile",
+  "version": "0.2.1",
+  "description": "Install the latest go-textile binary",
   "main": "src/index.js",
   "engines": {
     "node": ">=6.0.0",
@@ -14,11 +14,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ipfs/npm-go-ipfs-dep.git"
+    "url": "git+https://github.com/textileio/get-go-textile.git"
   },
   "dependencies": {
+    "@octokit/rest": "^16.27.0",
+    "go-ipfs-dep": "^0.4.20",
     "go-platform": "^1.0.0",
     "gunzip-maybe": "^1.4.1",
+    "jsonpath": "^1.0.1",
     "node-fetch": "^2.3.0",
     "tar-fs": "^2.0.0",
     "unzip-stream": "^0.3.0"
@@ -27,20 +30,19 @@
     "ipfs",
     "install"
   ],
-  "author": "Juan Benet <juan@benet.ai> (http://juan.benet.ai/)",
+  "author": "Textile.io <contact@textile.io>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ipfs/npm-go-ipfs-dep/issues"
+    "url": "https://github.com/textileio/get-go-textile/issues"
   },
-  "homepage": "https://github.com/ipfs/npm-go-ipfs-dep",
+  "homepage": "https://github.com/textileio/get-go-textile",
   "devDependencies": {
-    "aegir": "^18.2.0",
     "rimraf": "^2.6.2",
-    "standard": "^12.0.1",
     "tap-spec": "^5.0.0",
-    "tape": "^4.9.1"
+    "tape": "^4.10.1"
   },
   "contributors": [
+    "Juan Benet <juan@benet.ai>",
     "Alan Shaw <alan.shaw@protocol.ai>",
     "Alex Potsides <alex@achingbrain.net>",
     "David Dias <daviddias.p@gmail.com>",

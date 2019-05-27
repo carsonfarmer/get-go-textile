@@ -1,3 +1,8 @@
+<a name="0.2.1"></a>
+## 0.2.1 (2019-05-24)
+
+Forked, renamed to get-go-textile, and now using to manage go-textile!
+
 <a name="0.4.20"></a>
 ## [0.4.20](https://github.com/ipfs/npm-go-ipfs-dep/compare/v0.4.20-0...v0.4.20) (2019-04-17)
 

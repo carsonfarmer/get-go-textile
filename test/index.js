@@ -38,38 +38,38 @@ function download (version, platform, arch, callback) {
     .catch((err) => callback(err))
 }
 
-test('Ensure ipfs gets downloaded (current version and platform)', (t) => {
+test('Ensure textile gets downloaded (current version and platform)', (t) => {
   t.plan(5)
-  const dir = path.resolve(__dirname, '../go-ipfs')
+  const dir = path.resolve(__dirname, '../go-textile')
   rimraf.sync(dir)
 
   download((err, res) => {
     t.ifErr(err)
-    t.ok(res.fileName.indexOf(`ipfs_${version}_${goenv.GOOS}-${goenv.GOARCH}`) !== -1, 'Returns the correct filename')
+    t.ok(res.fileName.indexOf(`textile_${version}_${goenv.GOOS}-${goenv.GOARCH}`) !== -1, 'Returns the correct filename')
 
-    t.ok(res.installPath === path.resolve(__dirname, '../', 'go-ipfs') + path.sep, 'Returns the correct output path')
+    t.ok(res.installPath === path.resolve(__dirname, '../', 'go-textile') + path.sep, 'Returns the correct output path')
 
     fs.stat(dir, (err, stats) => {
-      t.error(err, 'go-ipfs should stat without error')
-      t.ok(stats, 'go-ipfs was downloaded')
+      t.error(err, 'go-textile should stat without error')
+      t.ok(stats, 'go-textile was downloaded')
     })
   })
 })
 
 test('Ensure Windows version gets downloaded', (t) => {
   t.plan(7)
-  const dir = path.resolve(__dirname, '../go-ipfs')
+  const dir = path.resolve(__dirname, '../go-textile')
   rimraf.sync(dir)
   download(version, 'windows', (err, res) => {
     t.ifErr(err)
-    t.ok(res.fileName.indexOf(`ipfs_${version}_windows-${goenv.GOARCH}`) !== -1, 'Returns the correct filename')
-    t.ok(res.installPath === path.resolve(__dirname, '../', 'go-ipfs') + path.sep, 'Returns the correct output path')
+    t.ok(res.fileName.indexOf(`textile_${version}_windows-${goenv.GOARCH}`) !== -1, 'Returns the correct filename')
+    t.ok(res.installPath === path.resolve(__dirname, '../', 'go-textile') + path.sep, 'Returns the correct output path')
 
     fs.stat(dir, (err, stats) => {
-      t.error(err, 'go-ipfs for windows should stat without error')
-      t.ok(stats, 'go-ipfs for windows was downloaded')
+      t.error(err, 'go-textile for windows should stat without error')
+      t.ok(stats, 'go-textile for windows was downloaded')
       // Check executable
-      fs.stat(path.join(dir, 'ipfs.exe'), (err2, stats2) => {
+      fs.stat(path.join(dir, 'textile.exe'), (err2, stats2) => {
         t.error(err2, 'windows bin should stat without error')
         t.ok(stats2, 'windows bin was downloaded')
       })
@@ -79,18 +79,18 @@ test('Ensure Windows version gets downloaded', (t) => {
 
 test('Ensure Linux version gets downloaded', (t) => {
   t.plan(7)
-  const dir = path.resolve(__dirname, '../go-ipfs')
+  const dir = path.resolve(__dirname, '../go-textile')
   rimraf.sync(dir)
   download(version, 'linux', (err, res) => {
     t.ifErr(err)
-    t.ok(res.fileName.indexOf(`ipfs_${version}_linux-${goenv.GOARCH}`) !== -1, 'Returns the correct filename')
-    t.ok(res.installPath === path.resolve(__dirname, '../', 'go-ipfs') + path.sep, 'Returns the correct output path')
+    t.ok(res.fileName.indexOf(`textile_${version}_linux-${goenv.GOARCH}`) !== -1, 'Returns the correct filename')
+    t.ok(res.installPath === path.resolve(__dirname, '../', 'go-textile') + path.sep, 'Returns the correct output path')
 
     fs.stat(dir, (err, stats) => {
-      t.error(err, 'go-ipfs for linux should stat without error')
-      t.ok(stats, 'go-ipfs for linux was downloaded')
+      t.error(err, 'go-textile for linux should stat without error')
+      t.ok(stats, 'go-textile for linux was downloaded')
       // Check executable
-      fs.stat(path.join(dir, 'ipfs'), (err2, stats2) => {
+      fs.stat(path.join(dir, 'textile'), (err2, stats2) => {
         t.error(err2, 'linux bin should stat without error')
         t.ok(stats2, 'linux bin was downloaded')
       })
@@ -100,18 +100,18 @@ test('Ensure Linux version gets downloaded', (t) => {
 
 test('Ensure OSX version gets downloaded', (t) => {
   t.plan(7)
-  const dir = path.resolve(__dirname, '../go-ipfs')
+  const dir = path.resolve(__dirname, '../go-textile')
   rimraf.sync(dir)
   download(version, 'darwin', (err, res) => {
     t.ifErr(err)
-    t.ok(res.fileName.indexOf(`ipfs_${version}_darwin-${goenv.GOARCH}`) !== -1, 'Returns the correct filename')
-    t.ok(res.installPath === path.resolve(__dirname, '../', 'go-ipfs') + path.sep, 'Returns the correct output path')
+    t.ok(res.fileName.indexOf(`textile_${version}_darwin-${goenv.GOARCH}`) !== -1, 'Returns the correct filename')
+    t.ok(res.installPath === path.resolve(__dirname, '../', 'go-textile') + path.sep, 'Returns the correct output path')
 
     fs.stat(dir, (err, stats) => {
-      t.error(err, 'go-ipfs for OSX should stat without error')
-      t.ok(stats, 'go-ipfs OSX linux was downloaded')
+      t.error(err, 'go-textile for OSX should stat without error')
+      t.ok(stats, 'go-textile OSX linux was downloaded')
       // Check executable
-      fs.stat(path.join(dir, 'ipfs'), (err2, stats2) => {
+      fs.stat(path.join(dir, 'textile'), (err2, stats2) => {
         t.error(err2, 'OSX bin should stat without error')
         t.ok(stats2, 'OSX bin was downloaded')
       })
@@ -121,7 +121,7 @@ test('Ensure OSX version gets downloaded', (t) => {
 
 test('Ensure TARGET_OS, TARGET_VERSION and TARGET_ARCH version gets downloaded', (t) => {
   t.plan(7)
-  const dir = path.resolve(__dirname, '../go-ipfs')
+  const dir = path.resolve(__dirname, '../go-textile')
   rimraf.sync(dir)
   process.env.TARGET_OS = 'windows'
   process.env.TARGET_VERSION = version
@@ -132,14 +132,14 @@ test('Ensure TARGET_OS, TARGET_VERSION and TARGET_ARCH version gets downloaded',
 
   download((err, res) => {
     t.ifErr(err)
-    t.ok(res.fileName.indexOf(`ipfs_${process.env.TARGET_VERSION}_${process.env.TARGET_OS}-${process.env.TARGET_ARCH}`) !== -1, 'Returns the correct filename')
-    t.ok(res.installPath === path.resolve(__dirname, '../', 'go-ipfs') + path.sep, 'Returns the correct output path')
+    t.ok(res.fileName.indexOf(`textile_${process.env.TARGET_VERSION}_${process.env.TARGET_OS}-${process.env.TARGET_ARCH}`) !== -1, 'Returns the correct filename')
+    t.ok(res.installPath === path.resolve(__dirname, '../', 'go-textile') + path.sep, 'Returns the correct output path')
 
     fs.stat(dir, (err, stats) => {
-      t.error(err, 'go-ipfs for windows should stat without error')
-      t.ok(stats, 'go-ipfs for windows was downloaded')
+      t.error(err, 'go-textile for windows should stat without error')
+      t.ok(stats, 'go-textile for windows was downloaded')
       // Check executable
-      fs.stat(path.join(dir, 'ipfs.exe'), (err2, stats2) => {
+      fs.stat(path.join(dir, 'textile.exe'), (err2, stats2) => {
         t.error(err2, 'windows bin should stat without error')
         t.ok(stats2, 'windows bin was downloaded')
         delete process.env.TARGET_OS
@@ -152,22 +152,10 @@ test('Ensure TARGET_OS, TARGET_VERSION and TARGET_ARCH version gets downloaded',
 
 test('Returns an error when version unsupported', (t) => {
   t.plan(2)
-  const dir = path.resolve(__dirname, '../go-ipfs')
+  const dir = path.resolve(__dirname, '../go-textile')
   rimraf.sync(dir)
   download('bogusversion', 'linux', (err, res) => {
     t.ok(err !== null, 'Throws an error')
-    t.ok(err.toString() === "Error: Version 'bogusversion' not available", 'Throws the correct error message')
-  })
-})
-
-test('Returns an error when dist url is 404', (t) => {
-  t.plan(2)
-  const dir = path.resolve(__dirname, '../go-ipfs')
-  rimraf.sync(dir)
-  process.env.GO_IPFS_DIST_URL = 'https://dist.ipfs.io/notfound'
-  download((err, res) => {
-    t.ok(err, 'Throws an error')
-    t.ok(err.toString().indexOf('404') > -1, 'Throws the correct error message')
-    delete process.env.GO_IPFS_DIST_URL
+    t.ok(err.toString() === 'Error: Unable to access requested release: HttpError: Not Found', 'Throws the correct error message')
   })
 })

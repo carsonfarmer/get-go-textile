@@ -1,21 +1,21 @@
 'use strict'
 /*
-  Download go-ipfs distribution package for desired version, platform and architecture,
+  Download go-textile distribution package for desired version, platform and architecture,
   and unpack it to a desired output directory.
 
   API:
     download([<version>, <platform>, <arch>, <outputPath>])
 
   Defaults:
-    go-ipfs version: value in package.json/go-ipfs/version
-    go-ipfs platform: the platform this program is run from
-    go-ipfs architecture: the architecture of the hardware this program is run from
-    go-ipfs install path: './go-ipfs'
+    go-textile version: value in package.json/go-textile/version
+    go-textile platform: the platform this program is run from
+    go-textile architecture: the architecture of the hardware this program is run from
+    go-textile install path: './go-textile'
 
   Example:
-    const download = require('go-ipfs-dep')
+    const download = require('get-go-textile')
 
-    download("v0.4.5", "linux", "amd64", "/tmp/go-ipfs"])
+    download("v0.2.1", "linux", "amd64", "/tmp/go-textile"])
       .then((res) => console.log('filename:', res.file, "output:", res.dir))
       .catch((e) => console.error(e))
 */
@@ -26,6 +26,9 @@ const tarFS = require('tar-fs')
 const unzip = require('unzip-stream')
 const fetch = require('node-fetch')
 const pkg = require('./../package.json')
+const Octokit = require('@octokit/rest')
+const octokit = Octokit()
+const jp = require('jsonpath')
 
 function unpack ({ url, installPath, stream }) {
   return new Promise((resolve, reject) => {
@@ -56,64 +59,46 @@ async function download ({ installPath, url }) {
 }
 
 function cleanArguments (version, platform, arch, installPath) {
-  const goIpfsInfo = pkg['go-ipfs']
+  const goTextileInfo = pkg['go-textile']
 
-  const goIpfsVersion = (goIpfsInfo && goIpfsInfo.version)
-    ? pkg['go-ipfs'].version
+  const goTextileVersion = (goTextileInfo && goTextileInfo.version)
+    ? pkg['go-textile'].version
     : 'v' + pkg.version.replace(/-[0-9]+/, '')
 
-  const distUrl = (goIpfsInfo && goIpfsInfo.distUrl)
-    ? pkg['go-ipfs'].distUrl
-    : 'https://dist.ipfs.io'
-
   return {
-    version: process.env.TARGET_VERSION || version || goIpfsVersion,
+    version: process.env.TARGET_VERSION || version || goTextileVersion,
     platform: process.env.TARGET_OS || platform || goenv.GOOS,
     arch: process.env.TARGET_ARCH || arch || goenv.GOARCH,
-    distUrl: process.env.GO_IPFS_DIST_URL || distUrl,
-    installPath: installPath ? path.resolve(installPath) : process.cwd()
+    installPath: path.join(installPath ? path.resolve(installPath) : process.cwd(), 'go-textile')
   }
-}
-
-async function ensureVersion ({ version, distUrl }) {
-  const res = await fetch(`${distUrl}/go-ipfs/versions`)
-  if (!res.ok) throw new Error(`Unexpected status: ${res.status}`)
-  const versions = (await res.text()).trim().split('\n')
-
-  if (versions.indexOf(version) === -1) {
-    throw new Error(`Version '${version}' not available`)
-  }
-}
-
-async function getDownloadURL ({ version, platform, arch, distUrl }) {
-  await ensureVersion({ version, distUrl })
-
-  const res = await fetch(`${distUrl}/go-ipfs/${version}/dist.json`)
-  if (!res.ok) throw new Error(`Unexpected status: ${res.status}`)
-  const data = await res.json()
-
-  if (!data.platforms[platform]) {
-    throw new Error(`No binary available for platform '${platform}'`)
-  }
-
-  if (!data.platforms[platform].archs[arch]) {
-    throw new Error(`No binary available for arch '${arch}'`)
-  }
-
-  const link = data.platforms[platform].archs[arch].link
-  return `${distUrl}/go-ipfs/${version}${link}`
 }
 
 module.exports = async function () {
   const args = cleanArguments(...arguments)
-  const url = await getDownloadURL(args)
+  try {
+    const settings = { owner: 'textileio', repo: 'go-textile' }
+    const { data } = args.version === 'next'
+      ? await octokit.repos.getLatestRelease(settings)
+      : await octokit.repos.getReleaseByTag({
+        ...settings,
+        tag: args.version
+      })
+    const query = jp.query(data, `$.assets[?(@.name.startsWith("go-textile_${args.version}_${args.platform}-${args.arch}"))]`)
+    if (query.length < 1) {
+      throw new Error(`Missing release ${args.version} for ${args.platform}-${args.arch}`)
+    }
+    const first = query[0]
+    const url = first.browser_download_url
 
-  process.stdout.write(`Downloading ${url}\n`)
+    process.stdout.write(`Downloading ${url}\n`)
 
-  await download({ ...args, url })
+    await download({ ...args, url })
 
-  return {
-    fileName: url.split('/').pop(),
-    installPath: path.join(args.installPath, 'go-ipfs') + path.sep
+    return {
+      fileName: first.name,
+      installPath: args.installPath + path.sep
+    }
+  } catch (err) {
+    throw new Error(`Unable to access requested release: ${err.toString()}`)
   }
 }

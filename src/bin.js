@@ -12,13 +12,13 @@ const error = (err) => {
 
 const success = (output) => {
   process.stdout.write(`Downloaded ${output.fileName}\n`)
-  process.stdout.write(`Installed go-${output.fileName.replace('.tar.gz', '').replace('.zip', '').replace(/_/g, ' ')} to ${output.installPath}\n`)
+  process.stdout.write(`Installed ${output.fileName.replace('.tar.gz', '').replace('.zip', '').replace(/_/g, ' ')} to ${output.installPath}\n`)
   process.exit(0)
 }
 
 // First param is the target version
 // Second param is the target platform
 // Third param is the target architecture
-download(process.argv[2], process.argv[3], process.argv[4])
+download(process.argv[2], process.argv[3], process.argv[4], process.argv[5])
   .then(success)
   .catch(error)
