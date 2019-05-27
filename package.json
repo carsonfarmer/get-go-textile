@@ -1,6 +1,6 @@
 {
   "name": "get-go-textile",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Install the latest go-textile binary",
   "main": "src/index.js",
   "engines": {
@@ -18,7 +18,6 @@
   },
   "dependencies": {
     "@octokit/rest": "^16.27.0",
-    "go-ipfs-dep": "^0.4.20",
     "go-platform": "^1.0.0",
     "gunzip-maybe": "^1.4.1",
     "jsonpath": "^1.0.1",
@@ -28,9 +27,10 @@
   },
   "keywords": [
     "ipfs",
+    "textile",
     "install"
   ],
-  "author": "Textile.io <contact@textile.io>",
+  "author": "Carson Farmer <carson@textile.io>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/textileio/get-go-textile/issues"
@@ -42,6 +42,7 @@
     "tape": "^4.10.1"
   },
   "contributors": [
+    "Carson Farmer <carson@textile.io>",
     "Juan Benet <juan@benet.ai>",
     "Alan Shaw <alan.shaw@protocol.ai>",
     "Alex Potsides <alex@achingbrain.net>",

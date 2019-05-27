@@ -77,12 +77,17 @@ module.exports = async function () {
   const args = cleanArguments(...arguments)
   try {
     const settings = { owner: 'textileio', repo: 'go-textile' }
-    const { data } = args.version === 'next'
-      ? await octokit.repos.getLatestRelease(settings)
-      : await octokit.repos.getReleaseByTag({
+    let result
+    if (args.version === 'next') {
+      result = await octokit.repos.getLatestRelease(settings)
+      args.version = result.data.name
+    } else {
+      result = await octokit.repos.getReleaseByTag({
         ...settings,
         tag: args.version
       })
+    }
+    const { data } = result
     const query = jp.query(data, `$.assets[?(@.name.startsWith("go-textile_${args.version}_${args.platform}-${args.arch}"))]`)
     if (query.length < 1) {
       throw new Error(`Missing release ${args.version} for ${args.platform}-${args.arch}`)

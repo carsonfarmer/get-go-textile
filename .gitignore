@@ -6,6 +6,7 @@ node_modules
 go-ipfs
 .vscode
 docs
+go-textile
 
 # Coverage directory used by tools like istanbul
 coverage
