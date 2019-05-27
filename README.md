@@ -24,7 +24,7 @@ Can be specified in `package.json` with a field `go-textile.version`, eg:
 },
 ```
 
-If left blank, it will default to the latest `go-textile` release.
+If left blank (or specified as `"next"`), it will default to the latest `go-textile` release.
 
 ### Arguments
 

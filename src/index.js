@@ -63,12 +63,12 @@ function cleanArguments (version, platform, arch, installPath) {
 
   const goTextileVersion = (goTextileInfo && goTextileInfo.version)
     ? pkg['go-textile'].version
-    : 'v' + pkg.version.replace(/-[0-9]+/, '')
+    : 'next'
 
   return {
-    version: process.env.TARGET_VERSION || version || goTextileVersion,
-    platform: process.env.TARGET_OS || platform || goenv.GOOS,
-    arch: process.env.TARGET_ARCH || arch || goenv.GOARCH,
+    version: version || process.env.TARGET_VERSION || goTextileVersion,
+    platform: platform || process.env.TARGET_OS || goenv.GOOS,
+    arch: arch || process.env.TARGET_ARCH || goenv.GOARCH,
     installPath: path.join(installPath ? path.resolve(installPath) : process.cwd(), 'go-textile')
   }
 }
